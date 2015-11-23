@@ -1,11 +1,10 @@
 require 'screencork/version'
+require 'screencork/image_formats'
 require 'screencork/screen'
 require 'phantomjs'
 
 module Screencork
   class ScreencorkError < StandardError; end;
-
-  IMAGE_FORMATS = %i(bmp jpg jpeg png ppm xbm xpm pdf)
 
   class << self
     def screen(*args)

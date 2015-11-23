@@ -5,7 +5,7 @@ module Screencork
       @opts = opts
     end
 
-    Screencork::IMAGE_FORMATS.each do |format|
+    IMAGE_FORMATS.each do |format|
       define_method "to_#{format}" do
         render format
       end
