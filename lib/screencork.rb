@@ -18,12 +18,13 @@ module Screencork
     end
 
     def run_phantom(url, format, opts = {})
-      Phantomjs.run(render_script_path, url, format, opts.to_json)
+      Phantomjs.run(render_script_path, url, format.to_s, opts.to_json)
     end
 
     private
 
     def raise_if_error!(result)
+      return if !result.valid_encoding?
       error_match = /Error: /.match(result)
       return if error_match.nil?
       raise ScreencorkError.new(error_match.post_text)
