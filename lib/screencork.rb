@@ -5,19 +5,21 @@ require 'phantomjs'
 module Screencork
   class ScreencorkError < StandardError; end;
 
+  IMAGE_FORMATS = %i(bmp jpg jpeg png ppm xbm xpm pdf)
+
   class << self
     def screen(*args)
       Screen.new(*args)
     end
 
-    def render(*args)
-      result = run_phantom(*args)
+    def render(url, format, opts = {})
+      result = run_phantom(url, format, opts)
       raise_if_error! result
-      Base64.decode64 result
+      format == :pdf ? result : Base64.decode64(result)
     end
 
-    def run_phantom(url, file_type, opts = {})
-      Phantomjs.run(render_script_path, url, file_type, opts.to_json)
+    def run_phantom(url, format, opts = {})
+      Phantomjs.run(render_script_path, url, format, opts.to_json)
     end
 
     private

@@ -4,19 +4,25 @@ A gem for grabbing screenshots of webpages. It Uses PhantomJS to load and render
 
 ## Usage
 
+Either pass in options to a new instance of Screencork::Screen with the options, or to the ::screen method.
+
+Supported file formats are bmp, jpg, jpeg, png, ppm, xbm, xpm, and pdf.
+Calling #to_your-format-here will return the string content of the file.
+
 ```ruby
   require 'screencork'
 
   screen = Screencork.screen('http://google.com')
-  screenshot = screen.to_png  # also can call .to_pdf and .to_jpeg
+  screenshot = screen.to_png
 ```
+
 
 You can pass in several options
 
 ```ruby
   screen = Screencork.screen('http://google.com',
-  	:width => 2400,
-    :height => 1200,
+  	:width => 400, # default phantomjs width
+    :height => 300, # default phantomjs height
     :cutoff => 5000, # the amount of time to wait before giving up on the page load, defaults to 5000 ms
     :cookies => [{ name: 'my-cookie', value: 'my-cookie-val', domain: 'http://google.com' }]
   )
@@ -24,7 +30,7 @@ You can pass in several options
   screen.to_pdf
 ```
 
-the cookies option must be an array of hashes that have a name, value, and a proper domain
+The cookies option must be an array of hashes that have a name, value, and a proper domain.
 
 ## Contributing
 

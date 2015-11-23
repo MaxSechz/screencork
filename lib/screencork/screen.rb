@@ -5,22 +5,16 @@ module Screencork
       @opts = opts
     end
 
-    def to_png
-      render('PNG')
-    end
-
-    def to_pdf
-      render('PDF')
-    end
-
-    def to_jpeg
-      render('JPEG')
+    Screencork::IMAGE_FORMATS.each do |format|
+      define_method "to_#{format}" do
+        render format
+      end
     end
 
     private
 
-    def render(file_type)
-      Screencork.render(@url, file_type, @opts)
+    def render(format)
+      Screencork.render(@url, format, @opts)
     end
   end
 end
