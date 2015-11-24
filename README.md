@@ -1,13 +1,12 @@
 # Screencork
 
-A gem for grabbing screenshots of webpages. It Uses PhantomJS to load and render pages to strings.
+A gem for grabbing screenshots OR pdfs of webpages. It uses PhantomJS to load and render pages to strings.
 
-## Usage
+## Basic Usage
 
-Either pass in options to a new instance of Screencork::Screen with the options, or to the ::screen method.
-
+Either pass in the page's url to a new instance of Screencork::Screen, or to the ::screen method.
+Then just call #to_your-format-here to return the string content of the file in that format.
 Supported file formats are bmp, jpg, jpeg, png, ppm, xbm, xpm, and pdf.
-Calling #to_your-format-here will return the string content of the file.
 
 ```ruby
   require 'screencork'
@@ -16,21 +15,32 @@ Calling #to_your-format-here will return the string content of the file.
   screenshot = screen.to_png
 ```
 
-
-You can pass in several options
+You can pass in any of the allowed options like so:
 
 ```ruby
-  screen = Screencork.screen('http://google.com',
-  	:width => 400, # default phantomjs width
-    :height => 300, # default phantomjs height
-    :cutoff => 5000, # the amount of time to wait before giving up on the page load, defaults to 5000 ms
-    :cookies => [{ name: 'my-cookie', value: 'my-cookie-val', domain: 'http://google.com' }]
-  )
+  screen = Screencork.screen('http://google.com', height: 300, cutoff: 5000)
 
   screen.to_pdf
 ```
 
-The cookies option must be an array of hashes that have a name, value, and a proper domain.
+## Advanced Usage
+
+Options with defaults will have their defaults displayed below. All nested arrays/hashes will not have a default,
+but do have default options for when only some of the nested options are supplied. These will be shown with the
+shape of the required array/hash. If there are multiple ways to submit an option they are demonstrated together.
+
+```ruby
+  screen = Screencork.screen('google.com',
+    height: 300, # the height of the viewport itself
+    width: 400, # the width of the viewport itself
+    cutoff: 5000, # the amount of time (in ms) allowed before considering the request failed
+    cookies: [{ name: 'my-cookie', value: 'my-cookie-val', domain: 'google.com' }], # an array of the cookies to be sent with the request. Must at least have a name, value and valid domain
+    paper_size: { width: 400, height: 300, margin: 0 }, # the size of the page when rendering a pdf file. Either width or height must be supplied for this option
+    paper_size: { format: 'A4', orientation: 'portrait', margin: 0 }, # either format or orientation must be supplied for this option.
+  )
+
+  screen.to_pdf
+```
 
 ## Contributing
 
