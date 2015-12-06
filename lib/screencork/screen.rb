@@ -14,7 +14,16 @@ module Screencork
     private
 
     def render(format)
-      Screencork.render(@url, format, @opts)
+      Screencork.render(@url, format, proccessed_opts)
+    end
+
+    def proccessed_opts
+      if (cookies = @opts[:cookies]) && cookies.is_a?(Hash)
+        array_cookies = cookies.map { |name, value| {domain: URI(@url).host, name: name, value: value} }
+        @opts.merge(cookies: array_cookies)
+      else
+        @opts
+      end
     end
   end
 end
