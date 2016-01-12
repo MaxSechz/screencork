@@ -19,10 +19,16 @@ module Screencork
     end
 
     def run_phantom(url, format, opts = {})
-      Phantomjs.run(render_script_path, url, format.to_s, opts.to_json)
+      format, opts = format.to_s, opts.to_json
+      log_command(url, format, opts)
+      Phantomjs.run(render_script_path, url, format, opts)
     end
 
     private
+
+    def log_command(url, format, opts = {})
+      puts [Phantomjs.path, render_script_path, url, format, opts.inspect.inspect].join(' ')
+    end
 
     def raise_if_error!(result)
       return if !result.valid_encoding?
@@ -32,7 +38,7 @@ module Screencork
     end
 
     def render_script_path
-      File.expand_path('../screencork/render.js', __FILE__)
+      @render_script_path ||= File.expand_path('../screencork/render.js', __FILE__)
     end
   end
 end
