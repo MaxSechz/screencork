@@ -2,6 +2,7 @@ require 'screencork/version'
 require 'screencork/image_formats'
 require 'screencork/screen'
 require 'phantomjs'
+require 'json'
 
 module Screencork
   class ScreencorkError < StandardError; end;
@@ -27,7 +28,7 @@ module Screencork
       return if !result.valid_encoding?
       error_match = /Error: /.match(result)
       return if error_match.nil?
-      raise ScreencorkError.new(error_match.post_text)
+      raise ScreencorkError.new(error_match.post_match)
     end
 
     def render_script_path
