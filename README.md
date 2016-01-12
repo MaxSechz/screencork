@@ -34,9 +34,11 @@ shape of the required array/hash. If there are multiple ways to submit an option
     height: 300, # the height of the viewport itself
     width: 400, # the width of the viewport itself
     cutoff: 5000, # the amount of time (in ms) allowed before considering the request failed
-    cookies: [{ name: 'my-cookie', value: 'my-cookie-val', domain: 'google.com' }], # an array of the cookies to be sent with the request. Must at least have a name, value and valid domain
-    paper_size: { width: 400, height: 300, margin: 0 }, # the size of the page when rendering a pdf file. Either width or height must be supplied for this option
-    paper_size: { format: 'A4', orientation: 'portrait', margin: 0 }, # either format or orientation must be supplied for this option.
+    el: '#example-id', # the sole element to render. will not be resized. has no default
+    cookies: {'my-cookie' => 'my-cookie-val'}, # a hash of key => val pairs. the domain will be the domain passed to ::screen
+    cookies: [{ name: 'my-cookie', value: 'my-cookie-val', domain: 'google.com' }], # the array version, allows other domains
+    paper_size: { width: 400, height: 300, margin: 0 }, # the page size of a pdf file. Either width or height must be supplied
+    paper_size: { format: 'A4', orientation: 'portrait', margin: 0 }, # either format or orientation must be supplied
   )
 
   screen.to_pdf
